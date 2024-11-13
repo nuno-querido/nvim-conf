@@ -8,7 +8,23 @@ return {
     },
 
     config = function()
-        require('telescope').setup({})
+        local telescope_trouble_action = require("trouble.sources.telescope")
+
+        require("telescope").setup({
+            defaults = {
+                mappings = {
+                    i = {
+                        ["<c-t>"] = telescope_trouble_action.open,
+                        ["<c-a>"] = telescope_trouble_action.add,
+                    },
+                    n = {
+                        ["<c-t>"] = telescope_trouble_action.open,
+                        ["<c-a>"] = telescope_trouble_action.add,
+                    },
+                },
+            },
+        })
+
         local builtin = require('telescope.builtin')
 
         vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
