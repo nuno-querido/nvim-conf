@@ -43,7 +43,7 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "gn", vim.diagnostic.goto_next, opts)
         vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, opts)
         vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "<F24>", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "<F3>", vim.lsp.buf.references, opts)
         vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<C-h>", vim.lsp.buf.signature_help, opts)
     end
