@@ -1,7 +1,7 @@
 return {
     "tpope/vim-fugitive",
     config = function()
-        vim.keymap.set("n", "<leader>gs", vim.cmd.Git)
+        vim.keymap.set("n", "<leader>gs", "<cmd>Git<CR>5j")
 
         local querido_fugitive = vim.api.nvim_create_augroup("querido_fugitive", {})
         local autocmd = vim.api.nvim_create_autocmd
@@ -15,7 +15,7 @@ return {
                 end
 
                 local bufnr = vim.api.nvim_get_current_buf()
-                local opts = {buffer = bufnr, remap = false}
+                local opts = { buffer = bufnr, remap = false }
                 vim.keymap.set(
                     "n",
                     "<leader>p",

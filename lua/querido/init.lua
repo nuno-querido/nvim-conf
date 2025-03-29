@@ -40,8 +40,22 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
         vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
         vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-        vim.keymap.set("n", "gn", vim.diagnostic.goto_next, opts)
-        vim.keymap.set("n", "gp", vim.diagnostic.goto_prev, opts)
+        vim.keymap.set(
+            "n",
+            "gn",
+            function()
+                vim.diagnostic.jump({ float = true, count = 1 })
+            end,
+            opts
+        )
+        vim.keymap.set(
+            "n",
+            "gp",
+            function()
+                vim.diagnostic.jump({ float = true, count = -1 })
+            end,
+            opts
+        )
         vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, opts)
         vim.keymap.set("n", "<F3>", vim.lsp.buf.references, opts)
         vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
@@ -51,9 +65,9 @@ autocmd('LspAttach', {
 
 
 autocmd("BufWritePre", {
-  group = QueridoGroup,
-  pattern = { "*.tsx", "*ts", "*.jsx", "*.js" },
-  command = "EslintFixAll"
+    group = QueridoGroup,
+    pattern = { "*.tsx", "*ts", "*.jsx", "*.js" },
+    command = "EslintFixAll"
 })
 
 
