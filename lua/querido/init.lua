@@ -37,7 +37,14 @@ autocmd('LspAttach', {
     callback = function(e)
         local opts = { buffer = e.buf }
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
+        vim.keymap.set(
+            "n",
+            "K",
+            function()
+                vim.lsp.buf.hover({ border = "rounded" })
+            end,
+            opts
+        )
         vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
         vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
         vim.keymap.set(
