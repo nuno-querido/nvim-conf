@@ -1,8 +1,8 @@
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
-        { "mason-org/mason.nvim",           version = "^1.0.0" },
-        { "mason-org/mason-lspconfig.nvim", version = "^1.0.0" },
+        "mason-org/mason.nvim",
+        "mason-org/mason-lspconfig.nvim",
         "hrsh7th/cmp-nvim-lsp",
         "hrsh7th/cmp-buffer",
         "hrsh7th/cmp-path",
@@ -30,24 +30,36 @@ return {
             ensure_installed = { "lua_ls" },
             handlers = {
                 function(server_name) -- default handler (optional)
-                    require("lspconfig")[server_name].setup {
+                    vim.lsp.config(server_name, {
                         capabilities = capabilities
-                    }
+                    })
                 end,
 
                 ["lua_ls"] = function()
-                    local lspconfig = require("lspconfig")
-                    lspconfig.lua_ls.setup {
+                    vim.lsp.config("lua_ls", {
                         capabilities = capabilities,
                         settings = {
-                            Lua = {
-                                runtime = { version = "Lua 5.1" },
+                            lua = {
+                                runtime = { version = "luajit" },
                                 diagnostics = {
-                                    globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
-                                }
+                                    globals = { "vim", "it", "describe", "before_each", "after_each" },
+                                },
+                                workspace = {
+                                    library = vim.api.nvim_get_runtime_file("", true),
+                                    checkthirdparty = false,
+                                },
+                                format = {
+                                    enable = true,
+                                    -- put format options here
+                                    -- note: the value should be string!!
+                                    defaultconfig = {
+                                        indent_style = "space",
+                                        indent_size = "2",
+                                    }
+                                },
                             }
                         }
-                    }
+                    })
                 end,
             }
         })

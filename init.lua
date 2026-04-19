@@ -1,1 +1,2 @@
-require("querido")
+-- Imports "lua/init.lua"
+require(".")
