@@ -5,6 +5,29 @@ require("config.lazy")
 local augroup = vim.api.nvim_create_augroup
 local AirtikGroup = augroup('AirtikAugroup', {})
 local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup('HighlightYank', {})
+
+function R(name)
+    require("plenary.reload").reload_module(name)
+end
+
+vim.filetype.add({
+    extension = {
+        templ = 'templ',
+    }
+})
+
+
+autocmd('TextYankPost', {
+    group = yank_group,
+    pattern = '*',
+    callback = function()
+        vim.highlight.on_yank({
+            higroup = 'IncSearch',
+            timeout = 40,
+        })
+    end,
+})
 
 autocmd('LspAttach', {
     group = AirtikGroup,
@@ -42,6 +65,12 @@ autocmd('LspAttach', {
         vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<C-h>", vim.lsp.buf.signature_help, opts)
     end
+})
+
+autocmd("BufWritePre", {
+    group = AirtikGroup,
+    pattern = { "*.tsx", "*ts", "*.jsx", "*.js" },
+    command = "EslintFixAll"
 })
 
 vim.g.netrw_browse_split = 0

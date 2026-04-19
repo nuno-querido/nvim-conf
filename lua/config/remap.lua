@@ -1,7 +1,9 @@
 vim.g.mapleader = " "
 
 vim.keymap.set("n", "<leader>e", vim.cmd.Ex)
-vim.keymap.set("n", "|", function() require("nvim-tree.api").tree.toggle(false, true) end)
+vim.keymap.set("n", "|", function()
+	require("nvim-tree.api").tree.toggle({ focus = false })
+end)
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -15,7 +17,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- greatest remap ever
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- This is going to get me cancelled
 vim.keymap.set("i", "<C-c>", "<Esc>")
