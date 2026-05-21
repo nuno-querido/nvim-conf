@@ -54,7 +54,7 @@ autocmd("LspAttach", {
 autocmd("BufWritePre", {
 	group = AirtikGroup,
 	pattern = { "*.tsx", "*ts", "*.jsx", "*.js" },
-	command = "EslintFixAll",
+	command = "LspEslintFixAll",
 })
 
 autocmd("VimEnter", {
