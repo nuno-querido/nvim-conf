@@ -3,74 +3,65 @@ require("config.remap")
 require("config.lazy")
 
 local augroup = vim.api.nvim_create_augroup
-local AirtikGroup = augroup('AirtikAugroup', {})
+local AirtikGroup = augroup("AirtikAugroup", {})
 local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup('HighlightYank', {})
+local yank_group = augroup("HighlightYank", {})
 
 function R(name)
-    require("plenary.reload").reload_module(name)
+	require("plenary.reload").reload_module(name)
 end
 
 vim.filetype.add({
-    extension = {
-        templ = 'templ',
-    }
+	extension = {
+		templ = "templ",
+	},
 })
 
-
-autocmd('TextYankPost', {
-    group = yank_group,
-    pattern = '*',
-    callback = function()
-        vim.highlight.on_yank({
-            higroup = 'IncSearch',
-            timeout = 40,
-        })
-    end,
+autocmd("TextYankPost", {
+	group = yank_group,
+	pattern = "*",
+	callback = function()
+		vim.highlight.on_yank({
+			higroup = "IncSearch",
+			timeout = 40,
+		})
+	end,
 })
 
-autocmd('LspAttach', {
-    group = AirtikGroup,
-    callback = function(e)
-        local opts = { buffer = e.buf }
-        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-        vim.keymap.set(
-            "n",
-            "K",
-            function()
-                vim.lsp.buf.hover({ border = "rounded" })
-            end,
-            opts
-        )
-        vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
-        vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
-        vim.keymap.set(
-            "n",
-            "gn",
-            function()
-                vim.diagnostic.jump({ float = true, count = 1 })
-            end,
-            opts
-        )
-        vim.keymap.set(
-            "n",
-            "gp",
-            function()
-                vim.diagnostic.jump({ float = true, count = -1 })
-            end,
-            opts
-        )
-        vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "<F3>", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
-        vim.keymap.set("n", "<C-h>", vim.lsp.buf.signature_help, opts)
-    end
+autocmd("LspAttach", {
+	group = AirtikGroup,
+	callback = function(e)
+		local opts = { buffer = e.buf }
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+		vim.keymap.set("n", "K", function()
+			vim.lsp.buf.hover({ border = "rounded" })
+		end, opts)
+		vim.keymap.set("n", "<leader>vws", vim.lsp.buf.workspace_symbol, opts)
+		vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
+		vim.keymap.set("n", "gn", function()
+			vim.diagnostic.jump({ float = true, count = 1 })
+		end, opts)
+		vim.keymap.set("n", "gp", function()
+			vim.diagnostic.jump({ float = true, count = -1 })
+		end, opts)
+		vim.keymap.set("n", "<F4>", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("n", "<F3>", vim.lsp.buf.references, opts)
+		vim.keymap.set("n", "<F2>", vim.lsp.buf.rename, opts)
+		vim.keymap.set("n", "<C-h>", vim.lsp.buf.signature_help, opts)
+	end,
 })
 
 autocmd("BufWritePre", {
-    group = AirtikGroup,
-    pattern = { "*.tsx", "*ts", "*.jsx", "*.js" },
-    command = "EslintFixAll"
+	group = AirtikGroup,
+	pattern = { "*.tsx", "*ts", "*.jsx", "*.js" },
+	command = "EslintFixAll",
+})
+
+autocmd("VimEnter", {
+	group = AirtikGroup,
+	callback = function()
+		require("nvim-tree.api").tree.toggle({ focus = false })
+	end,
 })
 
 vim.g.netrw_browse_split = 0
