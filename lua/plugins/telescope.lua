@@ -17,6 +17,8 @@ return {
 
 	config = function()
 		local telescope_trouble_action = require("trouble.sources.telescope")
+		local files_to_keep_ignoring = { "node_modules", ".git" }
+		local telescope_actions = require("telescope.actions")
 
 		require("telescope").setup({
 			defaults = {
@@ -42,9 +44,25 @@ return {
 					},
 				},
 			},
+			pickers = {
+				find_files = {
+					file_ignore_patterns = files_to_keep_ignoring,
+					hidden = true,
+				},
+				live_grep = {
+					file_ignore_patterns = files_to_keep_ignoring,
+					additiona_args = function()
+						return { "--hidden" }
+					end,
+				},
+			},
 		})
 
 		local builtin = require("telescope.builtin")
+
+		vim.keymap.set("n", "<leader>qf", function()
+			telescope_actions.open_qflist(0)
+		end, {})
 
 		vim.keymap.set("n", "<leader>pf", builtin.find_files, {})
 
